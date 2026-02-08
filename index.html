@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wolf Pack Academy | Florida B.E.S.T. 4th Grade</title>
+    <style>
+        :root {
+            --midnight: #1a2a6c;
+            --slate: #2c3e50;
+            --wolf-gray: #7f8c8d;
+            --silver: #bdc3c7;
+            --accent-gold: #f1c40f;
+            --success-green: #27ae60;
+            --help-red: #e74c3c;
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; background: #f0f2f5; margin: 0; color: #333; }
+        .no-print { display: block; }
+        
+        #master-container { 
+            max-width: 1100px; 
+            margin: 20px auto; 
+            background: #fff; 
+            border: 5px solid var(--slate); 
+            border-radius: 25px; 
+            overflow: hidden; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2); 
+        }
+
+        /* Header & Branding */
+        .header { 
+            background: linear-gradient(135deg, var(--midnight), var(--slate)); 
+            color: white; 
+            padding: 30px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .header h1 { margin: 0; font-size: 28px; letter-spacing: 2px; }
+        .rank-badge { background: var(--accent-gold); color: var(--slate); padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+
+        /* Navigation */
+        nav { display: flex; background: #34495e; cursor: pointer; color: white; }
+        nav div { flex: 1; padding: 15px; text-align: center; border-right: 1px solid #2c3e50; transition: 0.3s; }
+        nav div:hover { background: var(--midnight); }
+
+        .content-area { padding: 30px; min-height: 500px; background: #fdfdfd; }
+        .tab-pane { display: none; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Buttons & Inputs */
+        button { cursor: pointer; border-radius: 8px; border: none; font-weight: bold; transition: 0.2s; }
+        .btn-primary { background: var(--midnight); color: white; padding: 12px 25px; }
+        .btn-help { background: var(--help-red); color: white; padding: 10px 20px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* Assessment Styling */
+        .exam-card { background: #f8f9fa; border: 1px solid #ddd; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        .option-btn { display: block; width: 100%; text-align: left; padding: 15px; margin: 10px 0; border: 1px solid #ccc; border-radius: 10px; background: white; }
+        .option-btn:hover { background: #eef2f3; }
+
+        /* Badge Grid */
+        .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+        .badge { text-align: center; padding: 20px; border-radius: 15px; background: #eee; filter: grayscale(1); border: 2px solid transparent; }
+        .badge.unlocked { filter: grayscale(0); background: #fff; border-color: var(--success-green); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        /* Portfolio */
+        .portfolio-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+
+        /* Print Specifics */
+        @media print {
+            .no-print, nav, button, input, .header-tools { display: none !important; }
+            #master-container { border: none; box-shadow: none; width: 100%; }
+            #tab-audit, #print-diploma, #reward-sheet { display: block !important; page-break-before: always; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="master-container" class="no-print">
+    <div class="header">
+        <div>
+            <h1>🐺 WOLF PACK ACADEMY</h1>
+            <p style="margin: 5px 0 0; opacity: 0.8; font-style: italic;">Florida B.E.S.T. Standards | Reading & Art</p>
+        </div>
+        <div class="header-tools">
+            <span id="stu-name-tag" style="margin-right: 15px;"></span>
+            <span id="rank-tag" class="rank-badge">RANK: PUP</span>
+            <button onclick="triggerHelp()" class="btn-help" style="margin-left: 15px;">❓ HELP</button>
+        </div>
+    </div>
+
+    <nav>
+        <div onclick="switchTab('classroom')">📚 Classroom</div>
+        <div onclick="switchTab('fluency')">⏱️ Fluency</div>
+        <div onclick="switchTab('awards')">🏅 Awards</div>
+        <div onclick="switchTab('audit')">📊 Audit Log</div>
+    </nav>
+
+    <div class="content-area">
+        
+        <div id="tab-classroom" class="tab-pane" style="display: block;">
+            <div id="onboarding" style="text-align: center; padding: 40px;">
+                <h2>Welcome to the Pack!</h2>
+                <input type="text" id="name-input" placeholder="Enter Student Name" style="padding: 15px; width: 300px; border-radius: 10px; border: 1px solid #ccc;">
+                <button onclick="initStudent()" class="btn-primary" style="margin-top: 20px;">Begin Academic Year</button>
+            </div>
+
+            <div id="class-main" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="exam-card" style="border-top: 5px solid var(--midnight);">
+                        <h3>📝 Pre-Course Baseline</h3>
+                        <p>Establish your starting point for the Florida Audit.</p>
+                        <button onclick="startExam('PRE')" class="btn-primary" style="width: 100%;">Start Pre-Test</button>
+                    </div>
+                    <div class="exam-card" style="border-top: 5px solid var(--help-red);">
+                        <h3>🏆 Final Graduation Exam</h3>
+                        <p>Required: 90% score to unlock the Alpha Diploma.</p>
+                        <button onclick="startExam('FINAL')" class="btn-primary" style="width: 100%; background: var(--help-red);">Start Final</button>
+                    </div>
+                </div>
+
+                <div id="quiz-engine" style="display: none; margin-top: 30px; background: white; padding: 25px; border: 1px solid #ddd; border-radius: 15px;">
+                    <h2 id="quiz-title"></h2>
+                    <div id="q-area">
+                        <p id="q-text" style="font-size: 1.2em; font-weight: bold;"></p>
+                        <div id="q-options"></div>
+                    </div>
+                    <div id="quiz-finished" style="display: none; text-align: center;">
+                        <h2 id="final-pct" style="font-size: 3em; margin: 0;">0%</h2>
+                        <p id="mastery-status"></p>
+                        <button onclick="saveExamResult()" class="btn-primary">Save to Audit Transcript</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-fluency" class="tab-pane">
+            <div class="exam-card" style="border-left: 8px solid var(--success-green);">
+                <h3>⏱️ Reading Fluency Tracker</h3>
+                <p>Read your passage for 60 seconds, then enter the data below.</p>
+                <div style="display: flex; gap: 15px;">
+                    <input type="number" id="flu-total" placeholder="Total Words Read" style="padding: 10px; flex: 1;">
+                    <input type="number" id="flu-errors" placeholder="Errors" style="padding: 10px; flex: 1;">
+                    <button onclick="calculateFluency()" class="btn-primary" style="background: var(--success-green);">Log WPM</button>
+                </div>
+                <h2 id="wpm-output" style="text-align: center; margin-top: 20px; color: var(--midnight);"></h2>
+                <button onclick="window.print()" style="width: 100%; margin-top: 15px; padding: 10px; background: #eee; border: 1px solid #ccc;">🖨️ Print Weekly Reward Tracker</button>
+            </div>
+        </div>
+
+        <div id="tab-awards" class="tab-pane">
+            <h2 style="text-align: center;">Wolf Pack Achievement Wall</h2>
+            <div class="badge-grid">
+                <div class="badge" id="badge-tracker">
+                    <div style="font-size: 40px;">🔍</div>
+                    <h4>Lead Tracker</h4>
+                    <p style="font-size: 11px;">Complete the Pre-Course Baseline</p>
+                </div>
+                <div class="badge" id="badge-swift">
+                    <div style="font-size: 40px;">⚡</div>
+                    <h4>Swift Runner</h4>
+                    <p style="font-size: 11px;">Reach 120 Words Per Minute</p>
+                </div>
+                <div class="badge" id="badge-alpha">
+                    <div style="font-size: 40px;">🐺</div>
+                    <h4>Pack Alpha</h4>
+                    <p style="font-size: 11px;">Score 90% on Final Graduation Exam</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-audit" class="tab-pane">
+            <div style="padding: 20px; background: white; border-radius: 15px; border: 1px solid #ddd;">
+                <h1 style="text-align: center;">Academic Audit Transcript</h1>
+                <p style="text-align: center;">Florida Home Education Compliance Report</p>
+                <hr>
+                <h3>Growth Comparison</h3>
+                <div id="growth-data" style="display: flex; justify-content: space-around; background: #f9f9f9; padding: 20px; border-radius: 10px;">
+                    <div><strong>Baseline:</strong> <span id="audit-pre">N/A</span></div>
+                    <div><strong>End of Year:</strong> <span id="audit-final">N/A</span></div>
+                    <div><strong>Total Growth:</strong> <span id="audit-growth">0%</span></div>
+                </div>
+                <h3>Assessment History</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                    <thead style="background: #eee;">
+                        <tr><th style="padding: 10px; border: 1px solid #ddd;">Date</th><th style="padding: 10px; border: 1px solid #ddd;">Assessment</th><th style="padding: 10px; border: 1px solid #ddd;">Score</th></tr>
+                    </thead>
+                    <tbody id="audit-history-body"></tbody>
+                </table>
+                <button onclick="window.print()" class="btn-primary" style="width: 100%; margin-top: 30px;">🖨️ Print Official Audit Transcript</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="reward-sheet" style="display: none; text-align: center; border: 10px solid var(--slate); padding: 50px;">
+    <h1>🐾 WOLF PACK WEEKLY REWARD SHEET</h1>
+    <p>Color in a paw for every time you practice your reading!</p>
+    <div style="font-size: 100px; margin: 50px 0;">🐾 🐾 🐾 🐾 🐾</div>
+    <div style="border: 2px solid #ddd; padding: 20px; text-align: left;">
+        <p><strong>Goal:</strong> Read with expression and accuracy.</p>
+        <p><strong>Notes:</strong> __________________________________________________</p>
+    </div>
+</div>
+
+<div id="print-diploma" style="display: none; padding: 80px; border: 20px double var(--midnight); background: white; text-align: center; font-family: 'Times New Roman', serif;">
+    <h1 style="font-size: 60px; color: var(--midnight); margin-bottom: 10px;">WOLF PACK ACADEMY</h1>
+    <h3 style="letter-spacing: 5px; color: #7f8c8d;">DIPLOMA OF EXCELLENCE</h3>
+    <p style="font-size: 24px; margin: 40px 0;">This certifies that</p>
+    <h2 id="diploma-name" style="font-size: 55px; text-decoration: underline;">STUDENT NAME</h2>
+    <p style="font-size: 20px; line-height: 1.6;">Has achieved mastery of the 4th Grade Florida B.E.S.T. Reading Standards<br>and is hereby promoted to the 5th Grade.</p>
+    <div style="display: flex; justify-content: space-around; margin-top: 60px;">
+        <div style="text-align: center;"><p>___________________</p><p>Instructor / Parent</p></div>
+        <div style="text-align: center;"><p>___________________</p><p>Date of Graduation</p></div>
+    </div>
+    <div style="margin-top: 40px; font-size: 60px;">🐺</div>
+</div>
+
+<script>
+    const STORAGE_KEY = 'WOLF_ACADEMY_PRO_V1';
+    let currentExam = null; let qIdx = 0; let scoreCount = 0;
+
+    const EXAMS = {
+        'PRE': { title: "Pre-Course Baseline", qs: [
+            {q: "What is an inference?", a: ["Reading out loud", "Using clues to find hidden meaning", "Writing your name"], c: 1},
+            {q: "Which word signals a cause and effect relationship?", a: ["Because", "Green", "Slowly"], c: 0}
+        ]},
+        'FINAL': { title: "Graduation Final Exam", qs: [
+            {q: "What is a Simile?", a: ["Comparing using like or as", "Giving objects human traits", "A type of bug"], c: 0},
+            {q: "An Allusion is a reference to...", a: ["The weather", "Another famous story or myth", "The back of the book"], c: 1},
+            {q: "What is the universal message of a story called?", a: ["The Plot", "The Theme", "The Characters"], c: 1}
+        ]}
+    };
+
+    function initStudent() {
+        const name = document.getElementById('name-input').value;
+        if(name) {
+            localStorage.setItem(STORAGE_KEY + '_name', name);
+            updateUI();
+        }
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-pane').forEach(t => t.style.display = 'none');
+        document.getElementById('tab-' + tabId).style.display = 'block';
+        if(tabId === 'audit') renderAudit();
+        if(tabId === 'awards') checkBadges();
+    }
+
+    function startExam(key) {
+        currentExam = EXAMS[key]; currentExam.key = key; qIdx = 0; scoreCount = 0;
+        document.getElementById('quiz-title').innerText = currentExam.title;
+        document.getElementById('quiz-engine').style.display = 'block';
+        document.getElementById('quiz-finished').style.display = 'none';
+        document.getElementById('q-area').style.display = 'block';
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const data = currentExam.qs[qIdx];
+        if(!data) { finishQuiz(); return; }
+        document.getElementById('q-text').innerText = data.q;
+        const optDiv = document.getElementById('q-options'); optDiv.innerHTML = '';
+        data.a.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => { if(i === data.c) scoreCount++; qIdx++; loadQuestion(); };
+            optDiv.appendChild(btn);
+        });
+    }
+
+    function finishQuiz() {
+        document.getElementById('q-area').style.display = 'none';
+        document.getElementById('quiz-finished').style.display = 'block';
+        const pct = Math.round((scoreCount / currentExam.qs.length) * 100);
+        document.getElementById('final-pct').innerText = pct + "%";
+        localStorage.setItem(STORAGE_KEY + '_' + currentExam.key, pct);
+    }
+
+    function saveExamResult() {
+        const pct = localStorage.getItem(STORAGE_KEY + '_' + currentExam.key);
+        let history = JSON.parse(localStorage.getItem(STORAGE_KEY + '_history') || '[]');
+        history.push({ date: new Date().toLocaleDateString(), title: currentExam.title, score: pct + "%" });
+        localStorage.setItem(STORAGE_KEY + '_history', JSON.stringify(history));
+        document.getElementById('quiz-engine').style.display = 'none';
+        switchTab('audit');
+    }
+
+    function calculateFluency() {
+        const total = document.getElementById('flu-total').value;
+        const err = document.getElementById('flu-errors').value || 0;
+        if(!total) return;
+        const wpm = total - err;
+        document.getElementById('wpm-output').innerText = wpm + " Words Per Minute";
+        localStorage.setItem(STORAGE_KEY + '_wpm', wpm);
+        saveExamResultManual("Fluency Check", wpm + " WPM");
+        if(wpm >= 120) unlockBadge('badge-swift');
+    }
+
+    function saveExamResultManual(title, score) {
+        let history = JSON.parse(localStorage.getItem(STORAGE_KEY + '_history') || '[]');
+        history.push({ date: new Date().toLocaleDateString(), title: title, score: score });
+        localStorage.setItem(STORAGE_KEY + '_history', JSON.stringify(history));
+    }
+
+    function renderAudit() {
+        const history = JSON.parse(localStorage.getItem(STORAGE_KEY + '_history') || '[]');
+        const body = document.getElementById('audit-history-body');
+        body.innerHTML = history.map(h => `<tr><td>${h.date}</td><td>${h.title}</td><td>${h.score}</td></tr>`).join('');
+        
+        const pre = localStorage.getItem(STORAGE_KEY + '_PRE') || 0;
+        const final = localStorage.getItem(STORAGE_KEY + '_FINAL') || 0;
+        document.getElementById('audit-pre').innerText = pre + "%";
+        document.getElementById('audit-final').innerText = final + "%";
+        document.getElementById('audit-growth').innerText = (final - pre) + "%";
+        
+        if(final >= 90) unlockBadge('badge-alpha');
+        document.getElementById('diploma-name').innerText = localStorage.getItem(STORAGE_KEY + '_name') || "Student";
+    }
+
+    function unlockBadge(id) {
+        let badges = JSON.parse(localStorage.getItem(STORAGE_KEY + '_badges') || '[]');
+        if(!badges.includes(id)) badges.push(id);
+        localStorage.setItem(STORAGE_KEY + '_badges', JSON.stringify(badges));
+    }
+
+    function checkBadges() {
+        const badges = JSON.parse(localStorage.getItem(STORAGE_KEY + '_badges') || '[]');
+        badges.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.classList.add('unlocked');
+        });
+        if(badges.length >= 1) document.getElementById('rank-tag').innerText = "RANK: TRACKER";
+        if(badges.length >= 3) document.getElementById('rank-tag').innerText = "RANK: ALPHA";
+    }
+
+    function updateUI() {
+        const name = localStorage.getItem(STORAGE_KEY + '_name');
+        if(name) {
+            document.getElementById('onboarding').style.display = 'none';
+            document.getElementById('class-main').style.display = 'block';
+            document.getElementById('stu-name-tag').innerText = "Wolf: " + name;
+        }
+    }
+
+    function triggerHelp() { alert("A help signal has been sent to the Pack Leader (Mom). Review your vocab while you wait!"); }
+
+    window.onload = () => { updateUI(); checkBadges(); };
+</script>
+
+</body>
+</html>
