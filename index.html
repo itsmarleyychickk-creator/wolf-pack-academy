@@ -32,11 +32,13 @@
         .header { 
             background: linear-gradient(135deg, var(--midnight), var(--slate)); 
             color: white; 
-            padding: 30px; 
+            padding: 20px 40px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
         }
+        .branding-flex { display: flex; align-items: center; gap: 20px; }
+        .mascot-img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--silver); background: white; object-fit: cover; }
         .header h1 { margin: 0; font-size: 28px; letter-spacing: 2px; }
         .rank-badge { background: var(--accent-gold); color: var(--slate); padding: 5px 15px; border-radius: 20px; font-weight: bold; }
 
@@ -65,9 +67,6 @@
         .badge { text-align: center; padding: 20px; border-radius: 15px; background: #eee; filter: grayscale(1); border: 2px solid transparent; }
         .badge.unlocked { filter: grayscale(0); background: #fff; border-color: var(--success-green); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-        /* Portfolio */
-        .portfolio-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
-
         /* Print Specifics */
         @media print {
             .no-print, nav, button, input, .header-tools { display: none !important; }
@@ -80,9 +79,12 @@
 
 <div id="master-container" class="no-print">
     <div class="header">
-        <div>
-            <h1>🐺 WOLF PACK ACADEMY</h1>
-            <p style="margin: 5px 0 0; opacity: 0.8; font-style: italic;">Florida B.E.S.T. Standards | Reading & Art</p>
+        <div class="branding-flex">
+            <img src="https://images.unsplash.com/photo-1590422443674-0f7411bc76ec?q=80&w=150&h=150&auto=format&fit=crop" alt="Wolf Mascot" class="mascot-img">
+            <div>
+                <h1>🐺 WOLF PACK ACADEMY</h1>
+                <p style="margin: 5px 0 0; opacity: 0.8; font-style: italic;">"Leading the Way in Learning"</p>
+            </div>
         </div>
         <div class="header-tools">
             <span id="stu-name-tag" style="margin-right: 15px;"></span>
@@ -108,6 +110,9 @@
             </div>
 
             <div id="class-main" style="display: none;">
+                <div style="background: #eef2f3; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                    <strong style="color: var(--midnight);">Wolf Wisdom:</strong> "The strength of the pack is the wolf, and the strength of the wolf is the pack."
+                </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div class="exam-card" style="border-top: 5px solid var(--midnight);">
                         <h3>📝 Pre-Course Baseline</h3>
@@ -195,29 +200,6 @@
     </div>
 </div>
 
-<div id="reward-sheet" style="display: none; text-align: center; border: 10px solid var(--slate); padding: 50px;">
-    <h1>🐾 WOLF PACK WEEKLY REWARD SHEET</h1>
-    <p>Color in a paw for every time you practice your reading!</p>
-    <div style="font-size: 100px; margin: 50px 0;">🐾 🐾 🐾 🐾 🐾</div>
-    <div style="border: 2px solid #ddd; padding: 20px; text-align: left;">
-        <p><strong>Goal:</strong> Read with expression and accuracy.</p>
-        <p><strong>Notes:</strong> __________________________________________________</p>
-    </div>
-</div>
-
-<div id="print-diploma" style="display: none; padding: 80px; border: 20px double var(--midnight); background: white; text-align: center; font-family: 'Times New Roman', serif;">
-    <h1 style="font-size: 60px; color: var(--midnight); margin-bottom: 10px;">WOLF PACK ACADEMY</h1>
-    <h3 style="letter-spacing: 5px; color: #7f8c8d;">DIPLOMA OF EXCELLENCE</h3>
-    <p style="font-size: 24px; margin: 40px 0;">This certifies that</p>
-    <h2 id="diploma-name" style="font-size: 55px; text-decoration: underline;">STUDENT NAME</h2>
-    <p style="font-size: 20px; line-height: 1.6;">Has achieved mastery of the 4th Grade Florida B.E.S.T. Reading Standards<br>and is hereby promoted to the 5th Grade.</p>
-    <div style="display: flex; justify-content: space-around; margin-top: 60px;">
-        <div style="text-align: center;"><p>___________________</p><p>Instructor / Parent</p></div>
-        <div style="text-align: center;"><p>___________________</p><p>Date of Graduation</p></div>
-    </div>
-    <div style="margin-top: 40px; font-size: 60px;">🐺</div>
-</div>
-
 <script>
     const STORAGE_KEY = 'WOLF_ACADEMY_PRO_V1';
     let currentExam = null; let qIdx = 0; let scoreCount = 0;
@@ -278,6 +260,7 @@
         const pct = Math.round((scoreCount / currentExam.qs.length) * 100);
         document.getElementById('final-pct').innerText = pct + "%";
         localStorage.setItem(STORAGE_KEY + '_' + currentExam.key, pct);
+        if(pct >= 90) unlockBadge('badge-tracker');
     }
 
     function saveExamResult() {
@@ -318,7 +301,6 @@
         document.getElementById('audit-growth').innerText = (final - pre) + "%";
         
         if(final >= 90) unlockBadge('badge-alpha');
-        document.getElementById('diploma-name').innerText = localStorage.getItem(STORAGE_KEY + '_name') || "Student";
     }
 
     function unlockBadge(id) {
