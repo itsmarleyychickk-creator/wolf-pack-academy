@@ -1,0 +1,58 @@
+<div id="id-card-generator" class="no-print" style="max-width: 400px; margin: 20px auto; padding: 20px; background: #f4f7f6; border-radius: 15px; text-align: center; border: 1px solid #ddd;">
+    <p style="font-size: 14px; color: #666;">Click the button below to print your Official Academy ID!</p>
+    <button onclick="window.print()" style="background: #1a2a6c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">🖨️ Print Student ID</button>
+</div>
+
+<div id="id-card" style="width: 350px; height: 210px; margin: auto; background: linear-gradient(135deg, #1a2a6c 0%, #2c3e50 100%); border-radius: 12px; border: 3px solid #f1c40f; color: white; font-family: 'Segoe UI', sans-serif; position: relative; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+    
+    <div style="background: #f1c40f; color: #1a2a6c; font-size: 10px; font-weight: bold; text-align: center; padding: 4px; letter-spacing: 1px;">
+        FLORIDA B.E.S.T. STANDARDS COMPLIANT
+    </div>
+
+    <div style="padding: 15px; display: flex; gap: 15px;">
+        <div style="width: 90px; height: 110px; background: #fff; border: 2px solid #bdc3c7; border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+            <img src="https://images.unsplash.com/photo-1590422443674-0f7411bc76ec?q=80&w=150&h=150&auto=format&fit=crop" alt="Mascot" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <div style="flex: 1; text-align: left;">
+            <h2 style="margin: 0; font-size: 16px; color: #f1c40f; letter-spacing: 1px;">WOLF PACK ACADEMY</h2>
+            <p style="font-size: 9px; margin: 2px 0 10px; opacity: 0.8;">2025 - 2026 ACADEMIC YEAR</p>
+            
+            <label style="font-size: 8px; color: #f1c40f; display: block;">STUDENT NAME</label>
+            <div id="id-name" style="font-size: 14px; font-weight: bold; margin-bottom: 8px;">[ENTERING NAME...]</div>
+            
+            <label style="font-size: 8px; color: #f1c40f; display: block;">ACADEMY RANK</label>
+            <div style="font-size: 12px; font-weight: bold; color: #fff;">ALPHA TRAINEE 🐺</div>
+        </div>
+    </div>
+
+    <div style="position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.3); padding: 8px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box;">
+        <span style="font-size: 9px;">ID#: 2026-BEST-4TH</span>
+        <div style="width: 60px; height: 20px; background: white; border-radius: 2px; display: flex; align-items: center; justify-content: center;">
+            <div style="width: 50px; height: 2px; background: #000;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Automatically grab the student name from the browser memory
+    window.onload = function() {
+        const DB = 'WOLF_AUDIT_FINAL_2026';
+        const name = localStorage.getItem(DB + '_name') || "YOUNG ALPHA";
+        document.getElementById('id-name').innerText = name.toUpperCase();
+    }
+</script>
+
+<style>
+    @media print {
+        body * { visibility: hidden; }
+        #id-card, #id-card * { visibility: visible; }
+        #id-card { 
+            position: absolute; 
+            left: 50%; 
+            top: 20%; 
+            transform: translate(-50%, -50%); 
+            -webkit-print-color-adjust: exact; 
+        }
+    }
+</style>
